@@ -14,7 +14,9 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "de.philipmirau.aufmass-v2",
+      "appleTeamId": "FR7HJKQA96"
     },
     "android": {
       "adaptiveIcon": {
