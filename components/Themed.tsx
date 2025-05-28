@@ -3,43 +3,35 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView } from 'react-native'
+import { Text as DefaultText, View as DefaultView, useColorScheme } from 'react-native'
 
-import Colors from '@/constants/Colors'
-import { useColorScheme } from './useColorScheme'
-
-type ThemeProps = {
-  lightColor?: string
-  darkColor?: string
+type ThemedTextProps = {
+  lightStyle?: DefaultText['props']['style']
+  darkStyle?: DefaultText['props']['style']
 }
 
-export type TextProps = ThemeProps & DefaultText['props']
-export type ViewProps = ThemeProps & DefaultView['props']
-
-export function useThemeColor(
-  props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
-) {
-  const theme = useColorScheme() ?? 'light'
-  const colorFromProps = props[theme]
-
-  if (colorFromProps) {
-    return colorFromProps
-  } else {
-    return Colors[theme][colorName]
-  }
+type ThemedViewProps = {
+  lightStyle?: DefaultView['props']['style']
+  darkStyle?: DefaultView['props']['style']
 }
+
+export type TextProps = ThemedTextProps & DefaultText['props']
+export type ViewProps = ThemedViewProps & DefaultView['props']
 
 export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text')
+  const { style, lightStyle, darkStyle, ...otherProps } = props
+  const theme = useColorScheme() ?? 'light'
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />
+  const schemedStyle = theme === 'light' ? lightStyle : darkStyle
+
+  return <DefaultText style={[style, schemedStyle]} {...otherProps} />
 }
 
 export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background')
+  const { style, lightStyle, darkStyle, ...otherProps } = props
+  const theme = useColorScheme() ?? 'light'
 
-  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />
+  const schemedStyle = theme === 'light' ? lightStyle : darkStyle
+
+  return <DefaultView style={[style, schemedStyle]} {...otherProps} />
 }
