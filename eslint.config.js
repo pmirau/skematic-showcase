@@ -8,5 +8,9 @@ module.exports = defineConfig([
   eslintPluginPrettierRecommended,
   {
     ignores: ['dist/*'],
+    rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'no-empty-pattern': 'off',
+    },
   },
 ])
