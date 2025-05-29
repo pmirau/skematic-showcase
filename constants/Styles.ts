@@ -20,11 +20,18 @@ export const fontSize = {
 
 export const padding = SpacingScale
 export const margin = SpacingScale
+export const size = SpacingScale
 
 export const color = {
   ...Colors,
-  light: { text: { normal: Colors.zinc['900'], lighter: Colors.zinc['500'] } },
-  dark: { text: { normal: Colors.zinc['50'], darker: Colors.zinc['500'] } },
+  light: {
+    text: { normal: Colors.zinc['900'], lighter: Colors.zinc['500'] },
+    background: { normal: Colors.white },
+  },
+  dark: {
+    text: { normal: Colors.zinc['50'], darker: Colors.zinc['500'] },
+    background: { normal: Colors.black },
+  },
 } as const
 
 export const fontWeight = {

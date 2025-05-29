@@ -308,6 +308,9 @@ const rose = {
   950: '#4c0519',
 }
 
+const white = '#fff'
+const black = '#000'
+
 export default {
   slate,
   gray,
@@ -318,4 +321,6 @@ export default {
   orange,
   amber,
   yellow,
+  white,
+  black,
 }
