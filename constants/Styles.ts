@@ -25,13 +25,16 @@ export const size = SpacingScale
 export const color = {
   ...Colors,
   light: {
-    text: { normal: Colors.zinc['900'], lighter: Colors.zinc['500'] },
+    text: { normal: Colors.zinc['900'], light: Colors.zinc['500'], lighter: Colors.zinc['400'] },
+    blue: { normal: Colors.sky['700'] },
     background: { normal: Colors.white },
   },
   dark: {
-    text: { normal: Colors.zinc['50'], darker: Colors.zinc['500'] },
+    text: { normal: Colors.zinc['50'], dark: Colors.zinc['500'], darker: Colors.zinc['600'] },
+    blue: { normal: Colors.sky['500'] },
     background: { normal: Colors.black },
   },
+  black: { ...Colors.zinc, white: Colors.white, black: Colors.black },
 } as const
 
 export const fontWeight = {

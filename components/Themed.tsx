@@ -7,7 +7,10 @@ import { Text as DefaultText, View as DefaultView, useColorScheme } from 'react-
 import {
   RectButton as DefaultRectButton,
   RectButtonProps as DefaultRectButtonProps,
+  BorderlessButton as DefaultBorderlessButton,
+  BorderlessButtonProps as DefaultBorderlessButtonProps,
 } from 'react-native-gesture-handler'
+import { color } from '@/constants/Styles'
 
 type ThemedTextProps = {
   lightStyle?: DefaultText['props']['style']
@@ -25,9 +28,16 @@ type ThemedRectButtonProps = {
   underlayColorDark?: DefaultRectButtonProps['underlayColor']
 }
 
+type ThemedBorderlessButtonProps = {
+  lightStyle?: DefaultBorderlessButtonProps['style']
+  darkStyle?: DefaultBorderlessButtonProps['style']
+  rippleColorDark?: DefaultBorderlessButtonProps['rippleColor']
+}
+
 export type TextProps = ThemedTextProps & DefaultText['props']
 export type ViewProps = ThemedViewProps & DefaultView['props']
 export type RectButtonProps = ThemedRectButtonProps & DefaultRectButtonProps
+export type BorderlessButtonProps = ThemedBorderlessButtonProps & DefaultBorderlessButtonProps
 
 export function Text(props: TextProps) {
   const { style, lightStyle, darkStyle, ...otherProps } = props
@@ -58,6 +68,29 @@ export function RectButton(props: RectButtonProps) {
     <DefaultRectButton
       style={[style, schemedStyle]}
       underlayColor={schemedUnderlayColor}
+      {...otherProps}
+    />
+  )
+}
+
+export function BorderlessButton(props: BorderlessButtonProps) {
+  const {
+    style,
+    lightStyle,
+    darkStyle,
+    rippleColor,
+    rippleColorDark = color.black['600'],
+    ...otherProps
+  } = props
+  const theme = useColorScheme() ?? 'light'
+
+  const schemedStyle = theme === 'light' ? lightStyle : darkStyle
+  const schemedRippleColor = theme === 'light' ? rippleColor : rippleColorDark
+
+  return (
+    <DefaultBorderlessButton
+      style={[style, schemedStyle]}
+      rippleColor={schemedRippleColor}
       {...otherProps}
     />
   )

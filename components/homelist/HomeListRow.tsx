@@ -51,16 +51,16 @@ const styles = StyleSheet.create({
   },
   city: {
     fontSize: fontSize.xs,
-    color: color.light.text.lighter,
+    color: color.light.text.light,
   },
   cityDark: {
-    color: color.dark.text.darker,
+    color: color.dark.text.dark,
   },
   lastSaved: {
     fontSize: fontSize.xs,
-    color: color.light.text.lighter,
+    color: color.light.text.light,
   },
   lastSavedDark: {
-    color: color.dark.text.darker,
+    color: color.dark.text.dark,
   },
 })

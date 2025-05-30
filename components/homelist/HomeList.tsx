@@ -3,6 +3,7 @@ import { FlatList } from 'react-native-gesture-handler'
 import HomeListRow, { HomeListRowProps } from '@/components/homelist/HomeListRow'
 import { StyleSheet } from 'react-native'
 import { color, padding } from '@/constants/Styles'
+import EmptyHomeList from '@/components/homelist/EmptyHomeList'
 
 export type HomeListProps = {
   data: HomeListRowProps[]
@@ -11,12 +12,17 @@ export type HomeListProps = {
 export default function HomeList({ data }: HomeListProps) {
   return (
     <FlatList
+      // This is important to avoid issues on ios with the opacity animation BorderlessButton in EmptyHomeList when it is tapped. It does not work correctly when the parent view is scrollable.
+      // TODO disable when no items
+      scrollEnabled={false}
+      contentContainerStyle={{ flexGrow: 1 }}
       data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.customerName + item.lastSaved.getTime()}
       ItemSeparatorComponent={() => (
         <View style={styles.separator} darkStyle={styles.separatorDark} />
       )}
+      ListEmptyComponent={EmptyHomeList}
       // extraData={selectedId}
     />
   )
