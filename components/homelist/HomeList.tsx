@@ -1,4 +1,4 @@
-import { View } from '@/components/Themed'
+import { SafeAreaView, View } from '@/components/Themed'
 import { FlatList } from 'react-native-gesture-handler'
 import HomeListRow, { HomeListRowProps } from '@/components/homelist/HomeListRow'
 import { StyleSheet } from 'react-native'
@@ -11,13 +11,16 @@ export type HomeListProps = {
 
 export default function HomeList({ data }: HomeListProps) {
   // Don't use ListEmptyComponent={EmptyHomeList} bc there are weird layout issues. F.e. both children with flex: 1 won't be the same height.
-  if (data.length === 0) return <EmptyHomeList />
+  if (data.length === 0)
+    return (
+      <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+        <EmptyHomeList />
+      </SafeAreaView>
+    )
 
   return (
     <FlatList
       // This is important to avoid issues on ios with the opacity animation BorderlessButton in EmptyHomeList when it is tapped. It does not work correctly when the parent view is scrollable.
-      // TODO disable when no items
-      scrollEnabled={false}
       contentContainerStyle={{ flexGrow: 1 }}
       data={data}
       renderItem={renderItem}
@@ -25,6 +28,7 @@ export default function HomeList({ data }: HomeListProps) {
       ItemSeparatorComponent={() => (
         <View style={styles.separator} darkStyle={styles.separatorDark} />
       )}
+      ListFooterComponent={<SafeAreaView edges={['bottom']} />}
       // ListEmptyComponent={EmptyHomeList}
       // extraData={selectedId}
     />

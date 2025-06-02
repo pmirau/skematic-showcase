@@ -44,6 +44,7 @@ export default function EmptyHomeList({}: EmptyHomeListProps) {
           transition={100}
           priority="high"
           alt="Decorative image of a floor plan"
+          contentPosition="center"
         />
       </View>
     </View>

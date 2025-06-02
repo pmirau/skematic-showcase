@@ -6,6 +6,10 @@
 import { Text as DefaultText, View as DefaultView, useColorScheme } from 'react-native'
 import { Image as DefaultImage, ImageProps as DefaultImageProps } from 'expo-image'
 import {
+  SafeAreaView as DefaultSafeAreaView,
+  SafeAreaViewProps as DefaultSafeAreaViewProps,
+} from 'react-native-safe-area-context'
+import {
   RectButton as DefaultRectButton,
   RectButtonProps as DefaultRectButtonProps,
   BorderlessButton as DefaultBorderlessButton,
@@ -45,6 +49,22 @@ export function View(props: ViewProps) {
   const schemedStyle = theme === 'light' ? lightStyle : darkStyle
 
   return <DefaultView style={[style, schemedStyle]} {...otherProps} />
+}
+
+type ThemedSafeAreaViewProps = {
+  lightStyle?: DefaultSafeAreaViewProps['style']
+  darkStyle?: DefaultSafeAreaViewProps['style']
+}
+
+export type SafeAreaViewProps = ThemedSafeAreaViewProps & DefaultSafeAreaViewProps
+
+export function SafeAreaView(props: SafeAreaViewProps) {
+  const { style, lightStyle, darkStyle, ...otherProps } = props
+  const theme = useColorScheme() ?? 'light'
+
+  const schemedStyle = theme === 'light' ? lightStyle : darkStyle
+
+  return <DefaultSafeAreaView style={[style, schemedStyle]} {...otherProps} />
 }
 
 type ThemedRectButtonProps = {
