@@ -10,6 +10,9 @@ export type HomeListProps = {
 }
 
 export default function HomeList({ data }: HomeListProps) {
+  // Don't use ListEmptyComponent={EmptyHomeList} bc there are weird layout issues. F.e. both children with flex: 1 won't be the same height.
+  if (data.length === 0) return <EmptyHomeList />
+
   return (
     <FlatList
       // This is important to avoid issues on ios with the opacity animation BorderlessButton in EmptyHomeList when it is tapped. It does not work correctly when the parent view is scrollable.
@@ -22,7 +25,7 @@ export default function HomeList({ data }: HomeListProps) {
       ItemSeparatorComponent={() => (
         <View style={styles.separator} darkStyle={styles.separatorDark} />
       )}
-      ListEmptyComponent={EmptyHomeList}
+      // ListEmptyComponent={EmptyHomeList}
       // extraData={selectedId}
     />
   )

@@ -4,6 +4,7 @@
  */
 
 import { Text as DefaultText, View as DefaultView, useColorScheme } from 'react-native'
+import { Image as DefaultImage, ImageProps as DefaultImageProps } from 'expo-image'
 import {
   RectButton as DefaultRectButton,
   RectButtonProps as DefaultRectButtonProps,
@@ -17,27 +18,9 @@ type ThemedTextProps = {
   darkStyle?: DefaultText['props']['style']
 }
 
-type ThemedViewProps = {
-  lightStyle?: DefaultView['props']['style']
-  darkStyle?: DefaultView['props']['style']
-}
-
-type ThemedRectButtonProps = {
-  lightStyle?: DefaultRectButtonProps['style']
-  darkStyle?: DefaultRectButtonProps['style']
-  underlayColorDark?: DefaultRectButtonProps['underlayColor']
-}
-
-type ThemedBorderlessButtonProps = {
-  lightStyle?: DefaultBorderlessButtonProps['style']
-  darkStyle?: DefaultBorderlessButtonProps['style']
-  rippleColorDark?: DefaultBorderlessButtonProps['rippleColor']
-}
+// TODO Maybe rename all to styleDark so that prefix is the same
 
 export type TextProps = ThemedTextProps & DefaultText['props']
-export type ViewProps = ThemedViewProps & DefaultView['props']
-export type RectButtonProps = ThemedRectButtonProps & DefaultRectButtonProps
-export type BorderlessButtonProps = ThemedBorderlessButtonProps & DefaultBorderlessButtonProps
 
 export function Text(props: TextProps) {
   const { style, lightStyle, darkStyle, ...otherProps } = props
@@ -48,6 +31,13 @@ export function Text(props: TextProps) {
   return <DefaultText style={[style, schemedStyle]} {...otherProps} />
 }
 
+type ThemedViewProps = {
+  lightStyle?: DefaultView['props']['style']
+  darkStyle?: DefaultView['props']['style']
+}
+
+export type ViewProps = ThemedViewProps & DefaultView['props']
+
 export function View(props: ViewProps) {
   const { style, lightStyle, darkStyle, ...otherProps } = props
   const theme = useColorScheme() ?? 'light'
@@ -56,6 +46,14 @@ export function View(props: ViewProps) {
 
   return <DefaultView style={[style, schemedStyle]} {...otherProps} />
 }
+
+type ThemedRectButtonProps = {
+  lightStyle?: DefaultRectButtonProps['style']
+  darkStyle?: DefaultRectButtonProps['style']
+  underlayColorDark?: DefaultRectButtonProps['underlayColor']
+}
+
+export type RectButtonProps = ThemedRectButtonProps & DefaultRectButtonProps
 
 export function RectButton(props: RectButtonProps) {
   const { style, lightStyle, darkStyle, underlayColorDark, underlayColor, ...otherProps } = props
@@ -72,6 +70,13 @@ export function RectButton(props: RectButtonProps) {
     />
   )
 }
+type ThemedBorderlessButtonProps = {
+  lightStyle?: DefaultBorderlessButtonProps['style']
+  darkStyle?: DefaultBorderlessButtonProps['style']
+  rippleColorDark?: DefaultBorderlessButtonProps['rippleColor']
+}
+
+export type BorderlessButtonProps = ThemedBorderlessButtonProps & DefaultBorderlessButtonProps
 
 export function BorderlessButton(props: BorderlessButtonProps) {
   const {
@@ -94,4 +99,20 @@ export function BorderlessButton(props: BorderlessButtonProps) {
       {...otherProps}
     />
   )
+}
+
+type ThemedImageProps = {
+  lightStyle?: DefaultImageProps['style']
+  darkStyle?: DefaultImageProps['style']
+}
+
+export type ImageProps = ThemedImageProps & DefaultImageProps
+
+export function Image(props: ImageProps) {
+  const { style, lightStyle, darkStyle, ...otherProps } = props
+  const theme = useColorScheme() ?? 'light'
+
+  const schemedStyle = theme === 'light' ? lightStyle : darkStyle
+
+  return <DefaultImage style={[style, schemedStyle]} {...otherProps} />
 }

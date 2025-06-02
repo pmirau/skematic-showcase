@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native'
-import { View, Text, BorderlessButton } from '@/components/Themed'
+import { View, Text, BorderlessButton, Image } from '@/components/Themed'
 import { color, fontSize, fontWeight, margin, padding } from '@/constants/Styles'
 import * as Haptics from 'expo-haptics'
+import floorPlanImg from '@/assets/images/floor-plan.svg'
+import rotatedGridImg from '@/assets/images/rotated-grid.svg'
 
 export type EmptyHomeListProps = {}
 
@@ -18,9 +20,31 @@ export default function EmptyHomeList({}: EmptyHomeListProps) {
           borderless={false}
         >
           <Text style={styles.buttonText} darkStyle={styles.buttonTextDark}>
-            + Lege Dein erstes Projekt an
+            + Erstelle Dein erstes Projekt
           </Text>
         </BorderlessButton>
+      </View>
+      <View style={styles.imageContainer}>
+        <View style={styles.gridImgPositionContainer}>
+          <Image
+            style={styles.gridImg}
+            darkStyle={styles.gridImgDark}
+            source={rotatedGridImg}
+            contentFit="contain"
+            transition={100}
+            priority="high"
+            alt="Decorative image of a grid"
+          />
+        </View>
+        <Image
+          style={styles.floorPlanImg}
+          darkStyle={styles.floorPlanImgDark}
+          source={floorPlanImg}
+          contentFit="contain"
+          transition={100}
+          priority="high"
+          alt="Decorative image of a floor plan"
+        />
       </View>
     </View>
   )
@@ -35,6 +59,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    zIndex: 1,
+  },
+  imageContainer: {
+    flex: 1,
+    width: '100%',
+    zIndex: 0,
   },
   title: {
     fontSize: fontSize.sm,
@@ -44,7 +75,7 @@ const styles = StyleSheet.create({
     color: color.dark.text.darker,
   },
   button: {
-    marginTop: margin['6'],
+    marginTop: margin['5'],
     paddingVertical: padding['3'],
     paddingHorizontal: padding['4'],
     borderRadius: 40,
@@ -56,5 +87,34 @@ const styles = StyleSheet.create({
   },
   buttonTextDark: {
     color: color.dark.blue.normal,
+  },
+  floorPlanImg: {
+    flex: 1,
+    width: '100%',
+    tintColor: color.light.blue.normal,
+    opacity: 0.45,
+  },
+  floorPlanImgDark: {
+    tintColor: color.dark.blue.normal,
+  },
+  gridImgPositionContainer: {
+    aspectRatio: 1,
+    height: '100%',
+    top: 0,
+    right: 0,
+    position: 'absolute',
+  },
+  gridImg: {
+    position: 'absolute',
+    width: '250%',
+    height: '250%',
+    top: '-50%',
+    right: '-175%',
+    tintColor: color.light.blue.normal,
+    opacity: 0.1,
+  },
+  gridImgDark: {
+    tintColor: color.dark.blue.normal,
+    opacity: 0.2,
   },
 })
