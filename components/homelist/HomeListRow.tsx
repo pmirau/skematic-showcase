@@ -1,6 +1,7 @@
 import { RectButton, Text, View } from '@/components/Themed'
 import { StyleSheet } from 'react-native'
 import { color, fontSize, fontWeight, margin, padding } from '@/constants/Styles'
+import { useHorizontalScreenPadding } from '@/components/useHorizontalScreenPadding'
 
 export type HomeListRowProps = {
   customerName: string
@@ -9,8 +10,13 @@ export type HomeListRowProps = {
 }
 
 export default function HomeListRow({ customerName, lastSaved, city }: HomeListRowProps) {
+  const horizontalScreenPadding = useHorizontalScreenPadding()
+
   return (
-    <RectButton style={styles.container} underlayColorDark={color.white}>
+    <RectButton
+      style={[styles.container, { paddingHorizontal: horizontalScreenPadding }]}
+      underlayColorDark={color.white}
+    >
       <View style={styles.firstRow}>
         <Text style={styles.customerName} darkStyle={styles.customerNameDark}>
           {customerName}
@@ -30,7 +36,6 @@ export default function HomeListRow({ customerName, lastSaved, city }: HomeListR
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: padding['6'],
     paddingVertical: padding['4'],
   },
   firstRow: {

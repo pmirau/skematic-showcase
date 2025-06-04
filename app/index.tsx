@@ -1,29 +1,12 @@
-import { StyleSheet } from 'react-native'
-import { color } from '@/constants/Styles'
 import { HomeListRowProps } from '@/components/homelist/HomeListRow'
-import { View } from '@/components/Themed'
 import HomeList from '@/components/homelist/HomeList'
 
 export type HomeScreenProps = {}
 
 export default function HomeScreen({}: HomeScreenProps) {
-  return (
-    <View style={styles.container} darkStyle={styles.containerDark}>
-      {/*<HomeList data={[]} />*/}
-      <HomeList data={listRowsSample} />
-    </View>
-  )
+  // return <HomeList data={[]} />
+  return <HomeList data={listRowsSample} />
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: color.light.background.normal,
-  },
-  containerDark: {
-    backgroundColor: color.dark.background.normal,
-  },
-})
 
 const listRowsSample: HomeListRowProps[] = [
   {

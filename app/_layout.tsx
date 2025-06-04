@@ -9,6 +9,7 @@ import 'expo-dev-client'
 
 import { useColorScheme } from '@/components/useColorScheme'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { color } from '@/constants/Styles'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,9 +55,23 @@ function RootLayoutNav() {
     <GestureHandlerRootView>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
-          <Stack.Screen name="index" />
+          <Stack.Screen
+            name="index"
+            options={{
+              headerLargeTitle: true,
+              headerTitle: 'Projekte',
+              headerLargeTitleShadowVisible: false,
+              contentStyle: {
+                backgroundColor:
+                  colorScheme === 'dark'
+                    ? color.dark.background.normal
+                    : color.light.background.normal,
+              },
+            }}
+          />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
+        {/*<DevDimensions />*/}
       </ThemeProvider>
     </GestureHandlerRootView>
   )

@@ -1,8 +1,8 @@
 import { SafeAreaView, View } from '@/components/Themed'
 import { FlatList } from 'react-native-gesture-handler'
 import HomeListRow, { HomeListRowProps } from '@/components/homelist/HomeListRow'
-import { StyleSheet } from 'react-native'
-import { color, padding } from '@/constants/Styles'
+import { Platform, StyleSheet } from 'react-native'
+import { color, margin, padding } from '@/constants/Styles'
 import EmptyHomeList from '@/components/homelist/EmptyHomeList'
 
 export type HomeListProps = {
@@ -13,22 +13,36 @@ export default function HomeList({ data }: HomeListProps) {
   // Don't use ListEmptyComponent={EmptyHomeList} bc there are weird layout issues. F.e. both children with flex: 1 won't be the same height.
   if (data.length === 0)
     return (
-      <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          // Quickfix.
+          // This is an approximated value. Got by trial & error on iPhone 15.
+          // We need this specific padding to account for the space beneath the largeTitle navigation bar on iOS.
+          // Note: On iPad Pro 13 inch this padding is slightly excessive but doesn't negatively impact the design.
+          paddingTop: Platform.OS === 'ios' ? 150 : 0,
+        }}
+        edges={['bottom']}
+      >
         <EmptyHomeList />
       </SafeAreaView>
     )
 
   return (
     <FlatList
-      // This is important to avoid issues on ios with the opacity animation BorderlessButton in EmptyHomeList when it is tapped. It does not work correctly when the parent view is scrollable.
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{
+        marginTop: Platform.OS === 'ios' ? margin['2'] : 0,
+        // This is important to avoid issues on ios with the opacity animation BorderlessButton in EmptyHomeList when it is tapped. It does not work correctly when the parent view is scrollable.
+        flexGrow: 1,
+      }}
+      contentInsetAdjustmentBehavior="automatic"
       data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.customerName + item.lastSaved.getTime()}
       ItemSeparatorComponent={() => (
         <View style={styles.separator} darkStyle={styles.separatorDark} />
       )}
-      ListFooterComponent={<SafeAreaView edges={['bottom']} />}
+      ListFooterComponent={Platform.OS === 'android' ? <SafeAreaView edges={['bottom']} /> : null}
       // ListEmptyComponent={EmptyHomeList}
       // extraData={selectedId}
     />
