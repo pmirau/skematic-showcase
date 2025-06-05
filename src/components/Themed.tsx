@@ -15,7 +15,7 @@ import {
   BorderlessButton as DefaultBorderlessButton,
   BorderlessButtonProps as DefaultBorderlessButtonProps,
 } from 'react-native-gesture-handler'
-import { color } from '@/constants/Styles'
+import { color } from '@/src/constants/Styles'
 
 type ThemedTextProps = {
   lightStyle?: DefaultText['props']['style']

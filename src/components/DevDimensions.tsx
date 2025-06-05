@@ -1,7 +1,7 @@
 import { useWindowDimensions } from 'react-native'
-import { Text, View } from '@/components/Themed'
+import { Text, View } from '@/src/components/Themed'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { color, padding } from '@/constants/Styles'
+import { color, padding } from '@/src/constants/Styles'
 
 export type DevDimensionsProps = {}
 

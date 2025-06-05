@@ -1,5 +1,5 @@
-import SpacingScale from '@/constants/SpacingScale'
-import Colors from '@/constants/Colors'
+import SpacingScale from '@/src/constants/SpacingScale'
+import Colors from '@/src/constants/Colors'
 
 // base size = 17
 export const fontSize = {

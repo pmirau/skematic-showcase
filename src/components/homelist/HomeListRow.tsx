@@ -1,7 +1,7 @@
-import { RectButton, Text, View } from '@/components/Themed'
+import { RectButton, Text, View } from '@/src/components/Themed'
 import { StyleSheet } from 'react-native'
-import { color, fontSize, fontWeight, margin, padding } from '@/constants/Styles'
-import { useHorizontalScreenPadding } from '@/components/useHorizontalScreenPadding'
+import { color, fontSize, fontWeight, margin, padding } from '@/src/constants/Styles'
+import { useHorizontalScreenPadding } from '@/src/components/useHorizontalScreenPadding'
 
 export type HomeListRowProps = {
   customerName: string

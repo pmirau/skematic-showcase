@@ -1,5 +1,5 @@
 import { useWindowDimensions } from 'react-native'
-import { padding } from '@/constants/Styles'
+import { padding } from '@/src/constants/Styles'
 
 // The padding is based on the padding of the large title on iOS. Found out by trial & error.
 // Also see https://github.com/react-navigation/react-navigation/issues/10615

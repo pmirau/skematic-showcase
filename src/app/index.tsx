@@ -1,5 +1,5 @@
-import { HomeListRowProps } from '@/components/homelist/HomeListRow'
-import HomeList from '@/components/homelist/HomeList'
+import { HomeListRowProps } from '@/src/components/homelist/HomeListRow'
+import HomeList from '@/src/components/homelist/HomeList'
 
 export type HomeScreenProps = {}
 

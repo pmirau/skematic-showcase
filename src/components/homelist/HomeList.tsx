@@ -1,9 +1,9 @@
-import { SafeAreaView, View } from '@/components/Themed'
+import { SafeAreaView, View } from '@/src/components/Themed'
 import { FlatList } from 'react-native-gesture-handler'
-import HomeListRow, { HomeListRowProps } from '@/components/homelist/HomeListRow'
+import HomeListRow, { HomeListRowProps } from '@/src/components/homelist/HomeListRow'
 import { Platform, StyleSheet } from 'react-native'
-import { color, margin, padding } from '@/constants/Styles'
-import EmptyHomeList from '@/components/homelist/EmptyHomeList'
+import { color, margin, padding } from '@/src/constants/Styles'
+import EmptyHomeList from '@/src/components/homelist/EmptyHomeList'
 
 export type HomeListProps = {
   data: HomeListRowProps[]

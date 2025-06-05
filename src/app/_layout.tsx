@@ -7,9 +7,9 @@ import { useEffect } from 'react'
 import 'react-native-reanimated'
 import 'expo-dev-client'
 
-import { useColorScheme } from '@/components/useColorScheme'
+import { useColorScheme } from '@/src/components/useColorScheme'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { color } from '@/constants/Styles'
+import { color } from '@/src/constants/Styles'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -26,7 +26,7 @@ SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('@/src/assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   })
 

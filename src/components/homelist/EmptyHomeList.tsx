@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native'
-import { View, Text, BorderlessButton, Image } from '@/components/Themed'
-import { color, fontSize, fontWeight, margin, padding } from '@/constants/Styles'
+import { View, Text, BorderlessButton, Image } from '@/src/components/Themed'
+import { color, fontSize, fontWeight, margin, padding } from '@/src/constants/Styles'
 import * as Haptics from 'expo-haptics'
-import floorPlanImg from '@/assets/images/floor-plan.svg'
-import rotatedGridImg from '@/assets/images/rotated-grid.svg'
+import floorPlanImg from '@/src/assets/images/floor-plan.svg'
+import rotatedGridImg from '@/src/assets/images/rotated-grid.svg'
 
 export type EmptyHomeListProps = {}
 
