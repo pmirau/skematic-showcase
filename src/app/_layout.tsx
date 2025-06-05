@@ -10,6 +10,7 @@ import 'expo-dev-client'
 import { useColorScheme } from '@/src/components/useColorScheme'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { color } from '@/src/constants/Styles'
+import '@/src/i18n/config'
 
 export {
   // Catch any errors thrown by the Layout component.
