@@ -4,15 +4,18 @@ import { color, fontSize, fontWeight, margin, padding } from '@/src/constants/St
 import * as Haptics from 'expo-haptics'
 import floorPlanImg from '@/src/assets/images/floor-plan.svg'
 import rotatedGridImg from '@/src/assets/images/rotated-grid.svg'
+import { useTranslation } from 'react-i18next'
 
 export type EmptyHomeListProps = {}
 
 export default function EmptyHomeList({}: EmptyHomeListProps) {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.title} darkStyle={styles.titleDark}>
-          Keine Projekte angelegt
+          {t('No projects created')}
         </Text>
         <BorderlessButton
           onPress={() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)}
@@ -20,7 +23,7 @@ export default function EmptyHomeList({}: EmptyHomeListProps) {
           borderless={false}
         >
           <Text style={styles.buttonText} darkStyle={styles.buttonTextDark}>
-            + Erstelle Dein erstes Projekt
+            + {t('Create your first project')}
           </Text>
         </BorderlessButton>
       </View>

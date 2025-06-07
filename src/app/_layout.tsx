@@ -11,6 +11,7 @@ import { useColorScheme } from '@/src/components/useColorScheme'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { color } from '@/src/constants/Styles'
 import '@/src/i18n/config'
+import { useTranslation } from 'react-i18next'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,6 +52,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
+  const { t } = useTranslation()
 
   return (
     <GestureHandlerRootView>
@@ -60,7 +62,7 @@ function RootLayoutNav() {
             name="index"
             options={{
               headerLargeTitle: true,
-              headerTitle: 'Projekte',
+              headerTitle: t('Projects'),
               headerLargeTitleShadowVisible: false,
               contentStyle: {
                 backgroundColor:

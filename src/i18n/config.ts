@@ -1,7 +1,10 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import defaultDE from './locales/de/translation.json'
-import defaultEN from './locales/en/translation.json'
+import defaultDE from './locales/de-translation.json'
+import defaultEN from './locales/en-translation.json'
+import { getLocales } from 'expo-localization'
+
+const deviceLanguage = getLocales()[0].languageCode
 
 export const defaultNS = 'default'
 export const resources = {
@@ -16,9 +19,11 @@ export const resources = {
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    lng: 'de', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+    lng: deviceLanguage || 'de', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
     // if you're using a language detector, do not define the lng option
+    supportedLngs: ['de', 'en'],
+    fallbackLng: 'de',
     resources,
     defaultNS,
     ns: ['default'],
