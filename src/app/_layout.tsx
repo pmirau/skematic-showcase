@@ -1,9 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import 'react-native-reanimated'
 import 'expo-dev-client'
 
@@ -12,6 +16,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { color } from '@/src/constants/Styles'
 import '@/src/i18n/config'
 import { useTranslation } from 'react-i18next'
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
+import DevHeaderButton from '@/src/components/DevHeaderButton'
+import DevSheet from '@/src/components/DevSheet'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -53,29 +63,38 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
   const { t } = useTranslation()
+  const devSheetRef = useRef<BottomSheetModal>(null)
 
   return (
     <GestureHandlerRootView>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen
-            name="index"
-            options={{
-              headerLargeTitle: true,
-              headerTitle: t('Projects'),
-              headerLargeTitleShadowVisible: false,
-              contentStyle: {
-                backgroundColor:
-                  colorScheme === 'dark'
-                    ? color.dark.background.normal
-                    : color.light.background.normal,
-              },
-            }}
-          />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-        {/*<DevDimensions />*/}
-      </ThemeProvider>
+      <BottomSheetModalProvider>
+        <ThemeProvider
+          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen
+              name="index"
+              options={{
+                headerLargeTitle: true,
+                headerTitle: t('Projects'),
+                headerLargeTitleShadowVisible: false,
+                headerRight: () => (
+                  <DevHeaderButton onPress={devSheetRef.current?.present} />
+                ),
+                contentStyle: {
+                  backgroundColor:
+                    colorScheme === 'dark'
+                      ? color.dark.background.normal
+                      : color.light.background.normal,
+                },
+              }}
+            />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          </Stack>
+          {/*<DevDimensions />*/}
+        </ThemeProvider>
+        <DevSheet ref={devSheetRef} />
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   )
 }
