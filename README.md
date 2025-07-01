@@ -11,3 +11,4 @@ You can run `sh ./create-sizing-scale.sh` in `/constants` to generate a file wit
 - Consult the docs
 - Check the package version in package.json.
 - If it's a UI issue: Is it related to a parent that is scrollable? Does the bug still happen when it is placed outside a scrollable parent?
+- `npx expo-doctor`
