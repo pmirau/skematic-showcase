@@ -22,6 +22,11 @@ import {
 } from '@gorhom/bottom-sheet'
 import DevHeaderButton from '@/src/components/DevHeaderButton'
 import DevSheet from '@/src/components/DevSheet'
+import * as Device from 'expo-device'
+import DevSQLiteTools from '@/src/components/DevSQLiteTools'
+import { SQLiteProvider } from 'expo-sqlite'
+import { migrateDbIfNeeded } from '@/src/db/general'
+import { DB_NAME } from '@/src/constants/Database'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -68,32 +73,39 @@ function RootLayoutNav() {
   return (
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
-        <ThemeProvider
-          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        >
-          <Stack>
-            <Stack.Screen
-              name="index"
-              options={{
-                headerLargeTitle: true,
-                headerTitle: t('Projects'),
-                headerLargeTitleShadowVisible: false,
-                headerRight: () => (
-                  <DevHeaderButton onPress={devSheetRef.current?.present} />
-                ),
-                contentStyle: {
-                  backgroundColor:
-                    colorScheme === 'dark'
-                      ? color.dark.background.normal
-                      : color.light.background.normal,
-                },
-              }}
-            />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </Stack>
-          {/*<DevDimensions />*/}
-        </ThemeProvider>
-        <DevSheet ref={devSheetRef} />
+        {/* TODO Maybe add useSuspense */}
+        <SQLiteProvider databaseName={DB_NAME} onInit={migrateDbIfNeeded}>
+          <ThemeProvider
+            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+          >
+            {Device.modelName === 'iPhone 12' && Device.isDevice && (
+              // {Device.modelName === 'M2007J20CG' && Device.isDevice && (
+              <DevSQLiteTools />
+            )}
+            <Stack>
+              <Stack.Screen
+                name="index"
+                options={{
+                  headerLargeTitle: true,
+                  headerTitle: t('Projects'),
+                  headerLargeTitleShadowVisible: false,
+                  headerRight: () => (
+                    <DevHeaderButton onPress={devSheetRef.current?.present} />
+                  ),
+                  contentStyle: {
+                    backgroundColor:
+                      colorScheme === 'dark'
+                        ? color.dark.background.normal
+                        : color.light.background.normal,
+                  },
+                }}
+              />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+            {/*<DevDimensions />*/}
+          </ThemeProvider>
+          <DevSheet ref={devSheetRef} />
+        </SQLiteProvider>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
   )
