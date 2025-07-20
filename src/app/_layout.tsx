@@ -27,6 +27,8 @@ import DevSQLiteTools from '@/src/components/DevSQLiteTools'
 import { SQLiteProvider } from 'expo-sqlite'
 import { migrateDbIfNeeded } from '@/src/db/general'
 import { DB_NAME } from '@/src/constants/Database'
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '@/src/configs/Toast'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -107,6 +109,7 @@ function RootLayoutNav() {
           <DevSheet ref={devSheetRef} />
         </SQLiteProvider>
       </BottomSheetModalProvider>
+      <Toast config={toastConfig} />
     </GestureHandlerRootView>
   )
 }

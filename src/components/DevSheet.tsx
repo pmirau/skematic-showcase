@@ -5,9 +5,17 @@ import {
   BottomSheetModalProps,
   BottomSheetView,
   Text,
+  BorderlessButton,
 } from '@/src/components/Themed'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { color } from '@/src/constants/Styles'
+import { color, fontSize, margin, padding } from '@/src/constants/Styles'
+
+import { useSQLiteContext } from 'expo-sqlite'
+import { dbCreateProject } from '@/src/db/projects'
+import { faker } from '@faker-js/faker/locale/de'
+import { useTranslation } from 'react-i18next'
+import Toast from 'react-native-toast-message'
+import ReadableError from '@/src/errors/ReadableError'
 
 export type DevSheetProps = {
   ref: BottomSheetModalProps['ref']
@@ -40,6 +48,30 @@ export type DevSheetProps = {
 // }
 
 export default function DevSheet({ ref }: DevSheetProps) {
+  const db = useSQLiteContext()
+  const { t } = useTranslation()
+
+  const createProject = async () => {
+    try {
+      const fullName = faker.person.fullName()
+      const city = faker.location.city()
+
+      await dbCreateProject(db, fullName, city)
+
+      Toast.show({
+        text1: t(`Created Project for {{name}}`, { name: fullName }),
+      })
+    } catch (e) {
+      Toast.show({
+        type: 'error',
+        text1:
+          e instanceof ReadableError
+            ? e.userMessage
+            : t('Error: Project was not created.'),
+      })
+    }
+  }
+
   return (
     <BottomSheetModal
       ref={ref}
@@ -58,31 +90,22 @@ export default function DevSheet({ ref }: DevSheetProps) {
     >
       <BottomSheetView style={styles.contentContainer}>
         <SafeAreaView edges={['bottom']}>
-          <Text style={styles.text} darkStyle={styles.textDark}>
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-            Awesome 🎉 Awesome 🎉 Awesome 🎉 Awesome 🎉
-          </Text>
+          <BorderlessButton
+            onPress={createProject}
+            borderless={false}
+            activeOpacity={0.5}
+            style={{
+              marginTop: margin['5'],
+              marginBottom: margin['5'],
+              paddingVertical: padding['3'],
+              paddingHorizontal: padding['4'],
+              borderRadius: 40,
+            }}
+          >
+            <Text style={{ fontSize: fontSize.base }}>
+              {t('Create Project')}
+            </Text>
+          </BorderlessButton>
         </SafeAreaView>
       </BottomSheetView>
     </BottomSheetModal>

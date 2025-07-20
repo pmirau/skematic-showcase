@@ -1,15 +1,22 @@
 import { RectButton, Text, View } from '@/src/components/Themed'
 import { StyleSheet } from 'react-native'
-import { color, fontSize, fontWeight, margin, padding } from '@/src/constants/Styles'
+import {
+  color,
+  fontSize,
+  fontWeight,
+  margin,
+  padding,
+} from '@/src/constants/Styles'
 import { useHorizontalScreenPadding } from '@/src/components/useHorizontalScreenPadding'
+import { Project } from '@/src/db/projects'
 
-export type HomeListRowProps = {
-  customerName: string
-  city: string
-  lastSaved: Date
-}
+export type HomeListRowProps = Pick<Project, 'name' | 'city' | 'updatedAt'>
 
-export default function HomeListRow({ customerName, lastSaved, city }: HomeListRowProps) {
+export default function HomeListRow({
+  name,
+  updatedAt,
+  city,
+}: HomeListRowProps) {
   const horizontalScreenPadding = useHorizontalScreenPadding()
 
   return (
@@ -18,11 +25,11 @@ export default function HomeListRow({ customerName, lastSaved, city }: HomeListR
       underlayColorDark={color.white}
     >
       <View style={styles.firstRow}>
-        <Text style={styles.customerName} darkStyle={styles.customerNameDark}>
-          {customerName}
+        <Text style={styles.name} darkStyle={styles.nameDark}>
+          {name}
         </Text>
-        <Text style={styles.lastSaved} darkStyle={styles.lastSavedDark}>
-          {lastSaved.toLocaleDateString()}
+        <Text style={styles.updatedAt} darkStyle={styles.updatedAtDark}>
+          {new Date(updatedAt).toLocaleDateString()}
         </Text>
       </View>
       <View style={styles.secondRow}>
@@ -46,12 +53,12 @@ const styles = StyleSheet.create({
   secondRow: {
     marginTop: margin['2'],
   },
-  customerName: {
+  name: {
     fontSize: fontSize.base,
     color: color.light.text.normal,
     fontWeight: fontWeight.semibold,
   },
-  customerNameDark: {
+  nameDark: {
     color: color.dark.text.normal,
   },
   city: {
@@ -61,11 +68,11 @@ const styles = StyleSheet.create({
   cityDark: {
     color: color.dark.text.dark,
   },
-  lastSaved: {
+  updatedAt: {
     fontSize: fontSize.xs,
     color: color.light.text.light,
   },
-  lastSavedDark: {
+  updatedAtDark: {
     color: color.dark.text.dark,
   },
 })

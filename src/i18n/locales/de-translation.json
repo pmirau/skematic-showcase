@@ -1,4 +1,10 @@
 {
+  "Create Project": "Projekt erstellen",
+  "Created Project for {{name}}": "Projekt erstellt für {{name}}",
+  "Error: Project was not created.": "Fehler: Projekt wurde nicht erstellt",
+  "Retry": "Erneut versuchen",
+  "Error": "Fehler",
+  "Error: Projects could not be loaded.": "Fehler: Projekte konnten nicht geladen werden.",
   "Projects": "Projekte",
   "No projects created": "Keine Projekte angelegt",
   "Create your first project": "Erstelle Dein erstes Projekt"

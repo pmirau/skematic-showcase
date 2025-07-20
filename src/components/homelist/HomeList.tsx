@@ -1,15 +1,23 @@
 import { SafeAreaView, View } from '@/src/components/Themed'
-import { FlatList } from 'react-native-gesture-handler'
-import HomeListRow, { HomeListRowProps } from '@/src/components/homelist/HomeListRow'
+import { FlatList, RefreshControl } from 'react-native-gesture-handler'
+import HomeListRow, {
+  HomeListRowProps,
+} from '@/src/components/homelist/HomeListRow'
 import { Platform, StyleSheet } from 'react-native'
 import { color, margin, padding } from '@/src/constants/Styles'
 import EmptyHomeList from '@/src/components/homelist/EmptyHomeList'
 
 export type HomeListProps = {
   data: HomeListRowProps[]
+  onRefresh?: () => void
+  refreshing?: boolean
 }
 
-export default function HomeList({ data }: HomeListProps) {
+export default function HomeList({
+  data,
+  refreshing,
+  onRefresh,
+}: HomeListProps) {
   // Don't use ListEmptyComponent={EmptyHomeList} bc there are weird layout issues. F.e. both children with flex: 1 won't be the same height.
   if (data.length === 0)
     return (
@@ -28,6 +36,12 @@ export default function HomeList({ data }: HomeListProps) {
       </SafeAreaView>
     )
 
+  let refreshControl = undefined
+  if (onRefresh !== undefined && refreshing !== undefined)
+    refreshControl = (
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    )
+
   return (
     <FlatList
       contentContainerStyle={{
@@ -38,13 +52,17 @@ export default function HomeList({ data }: HomeListProps) {
       contentInsetAdjustmentBehavior="automatic"
       data={data}
       renderItem={renderItem}
-      keyExtractor={(item) => item.customerName + item.lastSaved.getTime()}
+      keyExtractor={(item) => item.name + item.updatedAt}
       ItemSeparatorComponent={() => (
         <View style={styles.separator} darkStyle={styles.separatorDark} />
       )}
-      ListFooterComponent={Platform.OS === 'android' ? <SafeAreaView edges={['bottom']} /> : null}
+      ListFooterComponent={
+        Platform.OS === 'android' ? <SafeAreaView edges={['bottom']} /> : null
+      }
       // ListEmptyComponent={EmptyHomeList}
-      // extraData={selectedId}
+      // extraData={selectedId}#
+      refreshControl={refreshControl}
+      refreshing={true}
     />
   )
 }
@@ -55,10 +73,10 @@ const renderItem = ({ item }: { item: HomeListRowProps }) => {
 
   return (
     <HomeListRow
-      key={item.customerName + item.lastSaved.getTime()}
-      customerName={item.customerName}
+      key={item.name + item.updatedAt}
+      name={item.name}
       city={item.city}
-      lastSaved={item.lastSaved}
+      updatedAt={item.updatedAt}
     />
   )
 }

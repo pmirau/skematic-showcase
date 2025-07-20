@@ -1,5 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite'
 import * as Device from 'expo-device'
+import { dbCreateTableProjects } from '@/src/db/projects'
 
 // Based on https://docs.expo.dev/versions/latest/sdk/sqlite/#usesqlitecontext-hook
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
@@ -9,6 +10,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
   // if (true) {
   //   await db.execAsync(`
   //       DROP TABLE IF EXISTS dev_device;
+  //       DROP TABLE IF EXISTS projects;
   //       PRAGMA user_version = 0
   //   `)
   // }
@@ -32,6 +34,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
     PRAGMA journal_mode = 'wal';
     CREATE TABLE dev_device (modelName TEXT, modelId TEXT, osName TEXT, osVersion TEXT, manufacturer TEXT, isDevice INTEGER);
     `)
+
+    await dbCreateTableProjects(db)
 
     await db.runAsync(
       'INSERT INTO dev_device (modelName, modelId, osName, osVersion, manufacturer, isDevice) VALUES (?, ?, ?, ?, ?, ?)',
