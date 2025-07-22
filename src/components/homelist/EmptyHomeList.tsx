@@ -1,10 +1,17 @@
 import { StyleSheet } from 'react-native'
-import { View, Text, BorderlessButton, Image } from '@/src/components/Themed'
-import { color, fontSize, fontWeight, margin, padding } from '@/src/constants/Styles'
+import { View, Text, Image } from '@/src/components/Themed'
+import {
+  color,
+  fontSize,
+  fontWeight,
+  margin,
+  padding,
+} from '@/src/constants/Styles'
 import * as Haptics from 'expo-haptics'
 import floorPlanImg from '@/src/assets/images/floor-plan.svg'
 import rotatedGridImg from '@/src/assets/images/rotated-grid.svg'
 import { useTranslation } from 'react-i18next'
+import BorderlessButton from '@/src/components/BorderlessButton'
 
 export type EmptyHomeListProps = {}
 
@@ -18,13 +25,11 @@ export default function EmptyHomeList({}: EmptyHomeListProps) {
           {t('No projects created')}
         </Text>
         <BorderlessButton
-          onPress={() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)}
-          style={styles.button}
-          borderless={false}
+          onPress={() =>
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+          }
         >
-          <Text style={styles.buttonText} darkStyle={styles.buttonTextDark}>
-            + {t('Create your first project')}
-          </Text>
+          {`+ ${t('Create your first project')}`}
         </BorderlessButton>
       </View>
       <View style={styles.imageContainer}>

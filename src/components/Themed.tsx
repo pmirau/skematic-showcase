@@ -47,7 +47,15 @@ export function Text(props: TextProps) {
 
   const schemedStyle = theme === 'light' ? lightStyle : darkStyle
 
-  return <DefaultText style={[style, schemedStyle]} {...otherProps} />
+  let textColor = color.light.text.normal
+  if (theme === 'dark') textColor = color.dark.text.normal
+
+  return (
+    <DefaultText
+      style={[{ color: textColor }, style, schemedStyle]}
+      {...otherProps}
+    />
+  )
 }
 
 type ThemedViewProps = {

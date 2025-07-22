@@ -5,11 +5,13 @@ import { dbReadProjects, Project } from '@/src/db/projects'
 import { SafeAreaView, Text, View } from '@/src/components/Themed'
 import ReadableError from '@/src/errors/ReadableError'
 import { useTranslation } from 'react-i18next'
-import { BorderlessButton } from 'react-native-gesture-handler'
 import { Platform } from 'react-native'
 import EmptyHomeList from '@/src/components/homelist/EmptyHomeList'
 import LoadingHomeListRow from '@/src/components/homelist/LoadingHomeListRow'
 import HomeListSeparator from '@/src/components/homelist/HomeListSeparator'
+import { fontSize, fontWeight, margin } from '@/src/constants/Styles'
+import * as Haptics from 'expo-haptics'
+import BorderlessButton from '@/src/components/BorderlessButton'
 
 export type HomeScreenProps = {}
 
@@ -34,7 +36,11 @@ export default function HomeScreen({}: HomeScreenProps) {
     try {
       const projects = await dbReadProjects(db)
       setProjects(projects)
+
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     } catch (err) {
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+
       if (err instanceof ReadableError) {
         setErrorMessage(err.userMessage)
       } else {
@@ -60,21 +66,17 @@ export default function HomeScreen({}: HomeScreenProps) {
   // 3) loaded projects
   // 4) empty projects (pull out of HomeList)
 
-  // todo this is temporary make it more beautiful in the next commit
   if (errorMessage) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text>{t('Error')}</Text>
-        <Text>{errorMessage}</Text>
-        <BorderlessButton onPress={loadProjects}>
-          <Text>{t('Retry')}</Text>
-        </BorderlessButton>
+      // todo add a illustration
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text
+          style={{ fontWeight: fontWeight.semibold, fontSize: fontSize.lg }}
+        >
+          {t('Error')}
+        </Text>
+        <Text style={{ marginTop: margin['3'] }}>{errorMessage}</Text>
+        <BorderlessButton onPress={loadProjects}>{t('Retry')}</BorderlessButton>
         {/*  TODO add dev contact */}
       </View>
     )
