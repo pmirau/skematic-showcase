@@ -31,7 +31,7 @@ export const color = {
       lighter: Colors.zinc['400'],
     },
     blue: { normal: Colors.sky['700'] },
-    background: { normal: Colors.white },
+    background: { normal: Colors.white, dark: Colors.zinc['100'] },
   },
   dark: {
     text: {

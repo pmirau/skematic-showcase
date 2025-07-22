@@ -30,6 +30,7 @@ import {
 import { BottomSheetViewProps as DefaultBottomSheetViewProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetView/types'
 import { color } from '@/src/constants/Styles'
 import { RefObject } from 'react'
+import Animated, { AnimatedProps } from 'react-native-reanimated'
 
 type ThemedTextProps = {
   lightStyle?: DefaultText['props']['style']
@@ -219,4 +220,21 @@ export function BottomSheetModal(props: BottomSheetModalProps) {
       {...otherProps}
     />
   )
+}
+
+type ThemedAnimatedViewProps = {
+  lightStyle?: AnimatedProps<ViewProps>['style']
+  darkStyle?: AnimatedProps<ViewProps>['style']
+}
+
+export type AnimatedViewProps = ThemedAnimatedViewProps &
+  AnimatedProps<ViewProps>
+
+export function AnimatedView(props: AnimatedViewProps) {
+  const { style, lightStyle, darkStyle, ...otherProps } = props
+  const theme = useColorScheme() ?? 'light'
+
+  const schemedStyle = theme === 'light' ? lightStyle : darkStyle
+
+  return <Animated.View style={[style, schemedStyle]} {...otherProps} />
 }
