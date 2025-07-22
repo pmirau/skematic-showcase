@@ -1,11 +1,11 @@
-import { SafeAreaView, View } from '@/src/components/Themed'
+import { SafeAreaView } from '@/src/components/Themed'
 import { FlatList, RefreshControl } from 'react-native-gesture-handler'
 import HomeListRow, {
   HomeListRowProps,
 } from '@/src/components/homelist/HomeListRow'
-import { Platform, StyleSheet } from 'react-native'
-import { color, margin, padding } from '@/src/constants/Styles'
-import EmptyHomeList from '@/src/components/homelist/EmptyHomeList'
+import { Platform } from 'react-native'
+import { margin } from '@/src/constants/Styles'
+import HomeListSeparator from '@/src/components/homelist/HomeListSeparator'
 
 export type HomeListProps = {
   data: HomeListRowProps[]
@@ -18,24 +18,6 @@ export default function HomeList({
   refreshing,
   onRefresh,
 }: HomeListProps) {
-  // Don't use ListEmptyComponent={EmptyHomeList} bc there are weird layout issues. F.e. both children with flex: 1 won't be the same height.
-  if (data.length === 0)
-    return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          // Quickfix.
-          // This is an approximated value. Got by trial & error on iPhone 15.
-          // We need this specific padding to account for the space beneath the largeTitle navigation bar on iOS.
-          // Note: On iPad Pro 13 inch this padding is slightly excessive but doesn't negatively impact the design.
-          paddingTop: Platform.OS === 'ios' ? 150 : 0,
-        }}
-        edges={['bottom']}
-      >
-        <EmptyHomeList />
-      </SafeAreaView>
-    )
-
   let refreshControl = undefined
   if (onRefresh !== undefined && refreshing !== undefined)
     refreshControl = (
@@ -53,9 +35,7 @@ export default function HomeList({
       data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.name + item.updatedAt}
-      ItemSeparatorComponent={() => (
-        <View style={styles.separator} darkStyle={styles.separatorDark} />
-      )}
+      ItemSeparatorComponent={() => <HomeListSeparator />}
       ListFooterComponent={
         Platform.OS === 'android' ? <SafeAreaView edges={['bottom']} /> : null
       }
@@ -80,14 +60,3 @@ const renderItem = ({ item }: { item: HomeListRowProps }) => {
     />
   )
 }
-
-const styles = StyleSheet.create({
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    marginHorizontal: padding['6'],
-    backgroundColor: color.zinc['200'],
-  },
-  separatorDark: {
-    backgroundColor: color.zinc['700'],
-  },
-})

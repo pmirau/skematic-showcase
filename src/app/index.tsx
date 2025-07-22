@@ -2,12 +2,22 @@ import HomeList from '@/src/components/homelist/HomeList'
 import { useCallback, useEffect, useState } from 'react'
 import { useSQLiteContext } from 'expo-sqlite'
 import { dbReadProjects, Project } from '@/src/db/projects'
-import { Text, View } from '@/src/components/Themed'
+import { SafeAreaView, Text, View } from '@/src/components/Themed'
 import ReadableError from '@/src/errors/ReadableError'
 import { useTranslation } from 'react-i18next'
 import { BorderlessButton } from 'react-native-gesture-handler'
+import { Platform } from 'react-native'
+import EmptyHomeList from '@/src/components/homelist/EmptyHomeList'
+import LoadingHomeListRow from '@/src/components/homelist/LoadingHomeListRow'
+import HomeListSeparator from '@/src/components/homelist/HomeListSeparator'
 
 export type HomeScreenProps = {}
+
+// Quickfix.
+// This is an approximated value. Got by trial & error on iPhone 15.
+// We need this specific padding to account for the space beneath the largeTitle navigation bar on iOS.
+// Note: On iPad Pro 13 inch this padding is slightly excessive but doesn't negatively impact the design.
+const safeAreaPaddingTop = Platform.OS === 'ios' ? 150 : 0
 
 export default function HomeScreen({}: HomeScreenProps) {
   const { t } = useTranslation()
@@ -70,14 +80,43 @@ export default function HomeScreen({}: HomeScreenProps) {
     )
   }
 
-  // TODO I will use this loading text first and put the skeleton in the next commit
-  if (isLoading) return <Text style={{ marginTop: 200 }}>Loading...</Text>
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, paddingTop: safeAreaPaddingTop }}
+        edges={['bottom']}
+      >
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+        <HomeListSeparator />
+        <LoadingHomeListRow />
+      </SafeAreaView>
+    )
+  }
 
   if (projects.length > 0)
     return (
       <HomeList data={projects} onRefresh={refresh} refreshing={refreshing} />
     )
 
-  // todo the empty projects out of homelist in the next commit
-  return <HomeList data={[]} />
+  // Don't use ListEmptyComponent={EmptyHomeList} bc there are weird layout issues. F.e. both children with flex: 1 won't be the same height.
+  return (
+    <SafeAreaView
+      style={{ flex: 1, paddingTop: safeAreaPaddingTop }}
+      edges={['bottom']}
+    >
+      <EmptyHomeList />
+    </SafeAreaView>
+  )
 }
