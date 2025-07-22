@@ -1,19 +1,20 @@
 {
   "name": "aufmass-v2",
+  "version": "0.0.1",
+  "private": true,
   "author": {
     "name": "Philip Mirau",
     "email": "philip.mirau@gmail.com"
   },
   "main": "expo-router/entry",
-  "version": "0.0.1",
   "scripts": {
-    "start": "expo start",
-    "prebuild": "expo prebuild --clean",
     "android": "expo run:android --device",
     "ios": "expo run:ios --device",
-    "web": "expo start --web",
+    "lint": "expo lint",
+    "prebuild": "expo prebuild --clean",
+    "start": "expo start",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "web": "expo start --web"
   },
   "jest": {
     "preset": "jest-expo"
@@ -62,6 +63,5 @@
     "prettier": "^3.5.3",
     "react-test-renderer": "19.0.0",
     "typescript": "~5.8.3"
-  },
-  "private": true
+  }
 }
