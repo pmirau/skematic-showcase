@@ -1,5 +1,9 @@
 {
   "name": "aufmass-v2",
+  "author": {
+    "name": "Philip Mirau",
+    "email": "philip.mirau@gmail.com"
+  },
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
